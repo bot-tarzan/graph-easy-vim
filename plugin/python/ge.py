@@ -86,7 +86,7 @@ def DoGen():
 
 
 def _callExternal(buf):
-    cmdarg = shlex.split("/usr/bin/vendor_perl/graph-easy --as=ascii")
+    cmdarg = shlex.split("/usr/local/bin/graph-easy --as=ascii")
     proc = subprocess.Popen(
         cmdarg,
         stdin=subprocess.PIPE,
