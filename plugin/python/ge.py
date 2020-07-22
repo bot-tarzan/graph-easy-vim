@@ -8,7 +8,6 @@ import shlex
 def _vimerr(errmsg):
     sys.stderr.write(errmsg)
 
-
 def _fetchCodeBlock():
     buf = vim.current.buffer
     r, c = vim.current.window.cursor
@@ -76,13 +75,22 @@ def DoGen():
         return
 
     # Clear the range and append the graph
-    r = vim.current.buffer.range(s, e+1)
+    r = vim.current.buffer.range(s+1, e+1)
+    offset=0
+    tmp = ['%% ' + line for line in r]
     r[:] = None
-    r.append("")
+    for line in tmp:
+        offset = offset + 1
+        r.append(line)
+
     r.append("{{{")
     for line in graph.split("\n"):
-        r.append(line)
+        if line:
+            offset = offset + 1
+            r.append(line)
     r.append("}}}")
+    offset = offset + 1
+    vim.command("normal! " + str(offset) + "j")
 
 
 def _callExternal(buf):
